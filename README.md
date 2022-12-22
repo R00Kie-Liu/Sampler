@@ -1,9 +1,12 @@
 # Task-adaptive Spatial-Temporal Video Sampler for Few-shot Action Recognition
 
-## Update
-The ActivityNet dataset few-shot split file has been realeased.
+## TODO list
 
-The code will be published after the ACM MM 2022 conference (2022/10/14).
+- [x] Realease the ActivityNet dataset few-shot split file.
+- [ ] Realease the core code of Sampler.
+- [ ] Add the code of Sampler + ProtoNet.
+- [ ] Realease the whole training and inference code.
+- [ ] Sampler + TA2N/TRX/OTAM.
 
 ## Contact
 
