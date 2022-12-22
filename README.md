@@ -23,6 +23,23 @@ A uniform sampler may overlook frames containing key actions. Critical regions i
 - [ ] Realease the whole training and inference code.
 - [ ] Sampler + TA2N/TRX/OTAM.
 
+## Usage
+
+```python
+from sampler import Selector
+
+args = ArgsObject() # Refer to sampler.py for details of args
+S = Selector(args).cuda()
+input = torch.rand(args.way*args.shot*args.seq_len, 3, args.img_size, args.img_size).cuda() 
+# Input: way*shot*frame, c, w, h
+print('Input Data shape:', input.shape)
+n, c, w, h = input.size()
+indices,_,_,_,_,_ = S(input) # Indice: way*shot, k, len
+input = input.view(args.way*args.shot, args.seq_len, -1) # Input: way*shot, len, c*w*h
+subset = torch.bmm(indices, input) # Output: way*shot, k, c*w*h
+subset = subset.view(-1, c, w, h) # Output: way*shot*k, c, w, h
+print('Data shape output by sampler:', subset.shape)
+```
 
 ## Bibtex
 If you find our work helpful for your research, please consider citing the following BibTeX entry.
