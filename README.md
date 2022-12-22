@@ -24,7 +24,7 @@ A uniform sampler may overlook frames containing key actions. Critical regions i
 - [ ] Sampler + TA2N/TRX/OTAM.
 
 ## Usage
-
+Example of spatial-temporal sampling from input query video set
 ```python
 from sampler import Selector
 
@@ -32,12 +32,16 @@ args = ArgsObject() # Refer to sampler.py for details of args
 S = Selector(args).cuda()
 input = torch.rand(args.way*args.shot*args.seq_len, 3, args.img_size, args.img_size).cuda() 
 # Input: way*shot*frame, c, w, h
-print('Input Data shape:', input.shape)
 n, c, w, h = input.size()
-indices,_,_,_,_,_ = S(input) # Indice: way*shot, k, len
-input = input.view(args.way*args.shot, args.seq_len, -1) # Input: way*shot, len, c*w*h
-subset = torch.bmm(indices, input) # Output: way*shot, k, c*w*h
-subset = subset.view(-1, c, w, h) # Output: way*shot*k, c, w, h
+print('Input Data shape:', input.shape)
+
+# Indice: way*shot, k, len
+indices,_,_,_,_,_ = S(input)
+input = input.view(args.way*args.shot, args.seq_len, -1) 
+# Output: way*shot, k, c*w*h
+subset = torch.bmm(indices, input)
+# Output: way*shot*k, c, w, h
+subset = subset.view(-1, c, w, h)
 print('Data shape output by sampler:', subset.shape)
 ```
 
